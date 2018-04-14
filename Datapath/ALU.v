@@ -3,7 +3,7 @@
 module ALU(
   input [31:0] A,    //1st operand
   input [31:0] B,    //2nd operand
-  input [1:0] ALUOp,
+  input [2:0] ALUOp,
   
   output reg Zero,
   output reg[31:0] result 
@@ -15,15 +15,25 @@ module ALU(
     result = 32'b0;
   end
   
+  integer dif;
+  initial  dif = A - B;
+  
   always@(*)
   begin
     case(ALUOp)
-      `ALUOP_ADDU:
+      `ALUOP_ADD:
         result = A + B;
-      `ALUOP_SUBU:
+      `ALUOP_SUB:
         result = A - B;
-      `ALUOP_ORI:
+      `ALUOP_OR:
         result = A | B;
+      `ALUOP_AND:
+        result = A & B;
+      `ALUOP_NOR:
+        result = ~ (A | B);
+      `ALUOP_SLT:
+        result = ((A[31] && !B[31]) || ((!(A[31] ^ B[31])) && dif[31]))? 32'h1 : 32'h0;
+
       default: result = 0;
     endcase
     

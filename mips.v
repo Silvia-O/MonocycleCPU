@@ -10,18 +10,18 @@
 
 module mips(
   input clk,
-  input reset,
-  
-  output [31:0]	pc_current,
-  output [31:0]	pc_new,
-  output [31:0]	instr,
-  output [31:0] rf_rd1,
-  output [31:0] rf_rd2,
-  output [31:0]	alu_result,
-  output [31:0]	dm_rd,
-  output [31:0]	ext_result
+  input reset
   );
    
+    
+  wire[31:0]	pc_current;
+  wire[31:0]	pc_new;
+  wire[31:0]	instr;
+  wire[31:0] rf_rd1;
+  wire[31:0] rf_rd2;
+  wire[31:0]	alu_result;
+  wire[31:0]	dm_rd;
+  wire[31:0]	ext_result;
 	wire[31:0]	pc_temp;
 	wire[31:0]	pc_add4;
 	wire[31:0]	pc_branch;
@@ -40,7 +40,8 @@ module mips(
   wire MemRead;
   wire MemWrite;
   wire Branch;
-  wire[1:0] ALUOp;
+  wire Jump;
+  wire[2:0] ALUOp;
   wire[1:0] EXTOp;  
   
   assign alu_srcA = rf_rd1;
@@ -81,8 +82,8 @@ module mips(
   output reg Zero,                       
   output reg[31:0] result 
   );*/
-  ALU pc_branch_add(pc_add4, {ext_result[29:0],2'b00}, `ALUOP_ADDU, Zero2, pc_branch); //branch adder
-  ALU dm_addr_alu(alu_srcA,  alu_srcB, ALUOp, Zero, alu_result);
+  ALU pc_branch_add(pc_add4, {ext_result[29:0],2'b00}, `ALUOP_ADD, Zero2, pc_branch); //branch adder
+  ALU dm_addr_alu(alu_srcA, alu_srcB, ALUOp, Zero, alu_result);
   
   
   /*DM 

@@ -10,7 +10,7 @@ module IM(
    /*get instruction hex code*/
   initial
   begin
-    fd = $fopen("./test.txt","r"); 
+    fd = $fopen("./test_14.txt","r"); 
     for(pointer = 0; pointer < 32; pointer = pointer+1)
     begin
       cnt = $fscanf(fd, "%x", instr_temp);
